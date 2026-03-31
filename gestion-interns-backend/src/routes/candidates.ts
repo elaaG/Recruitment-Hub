@@ -1,14 +1,18 @@
 import { Router } from 'express';
-import { mockCandidates } from '../data/candidates';
+import { prisma } from '../prisma_config';
 
 const router = Router();
 
-router.get('/', (req, res) => {
-  res.json(mockCandidates);
+router.get('/', async (req, res) => {
+  const candidates = await prisma.candidate.findMany({ include: { projects: true } });
+  res.json(candidates);
 });
 
-router.get('/:id', (req, res) => {
-  const candidate = mockCandidates.find(c => c.id === req.params.id);
+router.get('/:id', async (req, res) => {
+  const candidate = await prisma.candidate.findUnique({
+    where: { id: req.params.id },
+    include: { projects: true }
+  });
   candidate ? res.json(candidate) : res.status(404).json({ error: 'Not found' });
 });
 

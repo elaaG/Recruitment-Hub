@@ -1,0 +1,39 @@
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Candidate {
+  id          String   @id @default(uuid())
+  name        String
+  email       String   @unique
+  phone       String?
+  school      String
+  source      String
+  status      String   @default("New")
+  appliedDate DateTime @default(now())
+  cvUrl       String?
+
+  aiScore          Float?
+  aiProfile        String?
+  aiLevel          String?
+  aiSkills         String[]
+  aiStrengths      String[]
+  aiWeaknesses     String[]
+  aiRecommendation String?
+
+  projects    Project[]
+}
+
+model Project {
+  id          String    @id @default(uuid())
+  name        String
+  description String?
+  tech        String[]
+  candidate   Candidate @relation(fields: [candidateId], references: [id])
+  candidateId String
+}

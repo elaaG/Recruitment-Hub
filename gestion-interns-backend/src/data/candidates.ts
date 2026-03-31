@@ -12,7 +12,6 @@ export interface Candidate {
   source: 'Email' | 'Form' | 'LinkedIn';
   appliedDate: string;
   
-  // AI Analysis
   aiAnalysis: {
     score: number;
     profileType: ProfileType;
@@ -23,7 +22,6 @@ export interface Candidate {
     skills: string[];
   };
   
-  // Additional info
   cvUrl?: string;
   linkedinUrl?: string;
   portfolio?: string;
